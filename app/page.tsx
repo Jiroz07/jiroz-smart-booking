@@ -1,8 +1,10 @@
 "use client"
 import { useEffect, useRef } from "react"
+import { useForm, ValidationError } from '@formspree/react'
 
 export default function Page() {
   const heroRef = useRef<HTMLDivElement>(null)
+  const [state, handleSubmit] = useForm("meewkagd")
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -347,29 +349,150 @@ export default function Page() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section id="contacto" className="px-6 py-28 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0A0A0A]" />
+        {/* FORMULARIO + CTA */}
+        <section id="contacto" className="px-6 md:px-12 py-28 relative overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-96 h-96 bg-[#E8453C]/8 rounded-full blur-3xl" />
+            <div className="w-[600px] h-[600px] bg-[#E8453C]/5 rounded-full blur-3xl" />
           </div>
-          <div className="relative z-10 max-w-3xl mx-auto text-center fade-up">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter">
-              ¿Tienes una idea?<br />
-              <span className="text-gradient">Hagámosla realidad.</span>
-            </h2>
-            <p className="text-neutral-400 text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-              La primera reunión es gratis y sin compromiso. Cuéntame tu proyecto y te digo cómo lo hacemos.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://wa.me/18298414753" target="_blank" rel="noreferrer"
-                className="bg-[#E8453C] hover:bg-[#d13d35] text-white font-bold px-10 py-5 rounded-full text-base transition-all duration-200 glow">
-                💬 Escribir por WhatsApp
-              </a>
-              <a href="mailto:thejiroz@gmail.com"
-                className="border border-white/15 hover:border-white/40 hover:bg-white/5 text-white font-semibold px-10 py-5 rounded-full text-base transition-all duration-200">
-                thejiroz@gmail.com
-              </a>
+
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <div className="text-center mb-16 fade-up">
+              <span className="text-[#E8453C] text-xs font-bold uppercase tracking-widest">Empieza hoy</span>
+              <h2 className="text-4xl md:text-6xl font-black mt-3 mb-4 leading-tight tracking-tighter">
+                ¿Tienes una idea?<br />
+                <span className="text-gradient">Hagámosla realidad.</span>
+              </h2>
+              <p className="text-neutral-500 text-lg max-w-xl mx-auto">
+                Completa el formulario y me pondré en contacto contigo en menos de 24 horas.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-5 gap-8 items-start">
+
+              {/* LEFT — INFO */}
+              <div className="md:col-span-2 space-y-6 fade-up">
+                <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
+                  <h3 className="text-white font-bold mb-4">¿Por qué trabajar conmigo?</h3>
+                  <ul className="space-y-4">
+                    {[
+                      { icon: "⚡", title: "Respuesta rápida", desc: "Te contacto en menos de 24 horas" },
+                      { icon: "💰", title: "Sin sorpresas", desc: "Precio claro desde el inicio" },
+                      { icon: "🛠️", title: "Soporte incluido", desc: "No desaparezco después de entregar" },
+                      { icon: "🌴", title: "Local en RD", desc: "Entiendo tu mercado y tu cliente" },
+                    ].map((item) => (
+                      <li key={item.title} className="flex items-start gap-3">
+                        <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                        <div>
+                          <div className="text-white text-sm font-semibold">{item.title}</div>
+                          <div className="text-neutral-500 text-xs">{item.desc}</div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bg-[#111] border border-[#E8453C]/20 rounded-2xl p-6">
+                  <div className="text-xs text-neutral-500 mb-3 uppercase tracking-widest font-bold">Caso reciente</div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xl">🦷</span>
+                    <span className="text-white text-sm font-bold">Consultorio Dental</span>
+                  </div>
+                  <p className="text-neutral-500 text-xs leading-relaxed mb-3">Sistema de citas completo con WhatsApp automático. Entregado en 2 semanas.</p>
+                  <div className="flex gap-2">
+                    <span className="bg-[#E8453C]/10 text-[#E8453C] text-xs px-2 py-1 rounded-full">En producción</span>
+                    <span className="bg-white/5 text-neutral-400 text-xs px-2 py-1 rounded-full">Next.js</span>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-neutral-600 text-xs mb-3">¿Prefieres escribir directo?</p>
+                  <a href="https://wa.me/18298414753" target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/20 font-semibold px-5 py-3 rounded-full text-sm transition-all duration-200">
+                    💬 WhatsApp
+                  </a>
+                </div>
+              </div>
+
+              {/* RIGHT — FORM */}
+              <div className="md:col-span-3 fade-up delay-2">
+                {state.succeeded ? (
+                  <div className="bg-[#111] border border-[#E8453C]/20 rounded-2xl p-12 text-center">
+                    <div className="w-16 h-16 bg-[#E8453C]/10 border-2 border-[#E8453C] rounded-full flex items-center justify-center mx-auto mb-5 text-2xl">✓</div>
+                    <h3 className="text-2xl font-black text-white mb-2">¡Solicitud recibida!</h3>
+                    <p className="text-neutral-400">Te contactaré en menos de 24 horas. 🙌</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="bg-[#111] border border-white/5 rounded-2xl p-8 space-y-5">
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wide">Nombre *</label>
+                        <input type="text" name="nombre" required placeholder="Tu nombre"
+                          className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#E8453C] text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors placeholder:text-neutral-700" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wide">Negocio *</label>
+                        <input type="text" name="negocio" required placeholder="Nombre del negocio"
+                          className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#E8453C] text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors placeholder:text-neutral-700" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wide">WhatsApp *</label>
+                        <input type="tel" name="whatsapp" required placeholder="829-000-0000"
+                          className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#E8453C] text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors placeholder:text-neutral-700" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wide">Tipo de negocio *</label>
+                        <input type="text" name="tipo_negocio" required placeholder="Ej: Clínica, Salón..."
+                          className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#E8453C] text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors placeholder:text-neutral-700" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-400 mb-3 uppercase tracking-wide">¿Qué necesitas? *</label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {["Sistema de citas", "Página web", "Software personalizado"].map((op) => (
+                          <label key={op} className="flex items-center gap-2 bg-[#1A1A1A] border border-white/10 hover:border-[#E8453C]/50 rounded-xl px-3 py-3 cursor-pointer transition-colors group">
+                            <input type="checkbox" name="servicio" value={op} className="accent-[#E8453C] w-3.5 h-3.5" />
+                            <span className="text-neutral-400 text-xs group-hover:text-white transition-colors">{op}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Presupuesto aproximado *</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {["Menos de RD$15,000", "RD$15,000 – RD$30,000", "RD$30,000 – RD$60,000", "Más de RD$60,000"].map((op) => (
+                          <label key={op} className="flex items-center gap-2 bg-[#1A1A1A] border border-white/10 hover:border-[#E8453C]/50 rounded-xl px-3 py-2.5 cursor-pointer transition-colors">
+                            <input type="radio" name="presupuesto" value={op} required className="accent-[#E8453C] flex-shrink-0" />
+                            <span className="text-neutral-400 text-xs">{op}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wide">¿Qué quieres lograr? *</label>
+                      <textarea name="descripcion" required rows={3}
+                        placeholder="Ej: Quiero que mis clientes agenden citas sin llamarme, que reciban confirmación por WhatsApp..."
+                        className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#E8453C] text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors placeholder:text-neutral-700 resize-none" />
+                      <ValidationError field="descripcion" errors={state.errors} className="text-red-400 text-xs mt-1" />
+                    </div>
+
+                    <button type="submit" disabled={state.submitting}
+                      className="w-full bg-[#E8453C] hover:bg-[#c73a33] disabled:opacity-50 text-white font-black py-4 rounded-xl text-base transition-all duration-200 shadow-lg shadow-[#E8453C]/20 glow">
+                      {state.submitting ? "Enviando..." : "Solicitar proyecto →"}
+                    </button>
+
+                    <p className="text-center text-neutral-600 text-xs">
+                      Sin compromiso · Respondo en menos de 24 horas
+                    </p>
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </section>
