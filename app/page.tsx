@@ -83,6 +83,7 @@ export default function Page() {
             <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
             <a href="#proyectos" className="hover:text-white transition-colors">Proyectos</a>
             <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
+            <a href="/contacto" className="hover:text-white transition-colors text-[#E8453C] font-semibold">Solicitar proyecto</a>
           </div>
           <a href="https://wa.me/18298414753" target="_blank" rel="noreferrer"
             className="bg-[#E8453C] hover:bg-[#c73a33] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200 glow">
